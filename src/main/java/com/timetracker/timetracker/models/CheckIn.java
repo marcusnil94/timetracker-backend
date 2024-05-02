@@ -11,6 +11,7 @@ public class CheckIn {
     @Id   
     private String id;
     private LocalDateTime checkInTime;
+    private LocalDateTime checkOutTime;
     
     @DBRef
     private User user;
@@ -43,5 +44,13 @@ public class CheckIn {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public LocalDateTime getCheckOutTime() {
+        return checkOutTime;
+    }
+
+    public void setCheckOutTime(LocalDateTime checkOutTime) {
+        this.checkOutTime = checkOutTime;
     }
 }
