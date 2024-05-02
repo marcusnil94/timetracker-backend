@@ -1,5 +1,5 @@
 package com.timetracker.timetracker.services;
 
-public class WorkAssignment {
+public class CheckInService {
     
 }
