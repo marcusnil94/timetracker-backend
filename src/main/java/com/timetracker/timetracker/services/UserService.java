@@ -22,4 +22,8 @@ public class UserService {
     public List<User> getUsers() {
         return mongoOperations.findAll(User.class);
     }
+
+    public User getUserById(String userId) {
+        return mongoOperations.findById(userId, User.class);
+    }
 }
