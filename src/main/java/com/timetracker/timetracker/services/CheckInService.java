@@ -4,6 +4,7 @@ import com.timetracker.timetracker.models.CheckIn;
 import com.timetracker.timetracker.models.User;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -32,4 +33,20 @@ public class CheckInService {
             throw new RuntimeException("User not found");
         }
     }
+
+    public CheckIn checkout(String checkInId) {
+        CheckIn checkIn = mongoOperations.findById(checkInId, CheckIn.class);
+        if (checkIn != null) {
+            checkIn.setCheckOutTime(LocalDateTime.now());
+            mongoOperations.save(checkIn);
+            return checkIn;
+        } else {
+            throw new RuntimeException("Check-in not found");
+        }
+    }
+
+    public List<CheckIn> getCheckIns() {
+        return mongoOperations.findAll(CheckIn.class);
+    }
+
 }
