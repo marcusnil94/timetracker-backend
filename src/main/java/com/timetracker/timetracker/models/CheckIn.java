@@ -12,12 +12,14 @@ public class CheckIn {
     private String id;
     private LocalDateTime checkInTime;
     private LocalDateTime checkOutTime;
+    private String category;
     
     @DBRef
     private User user;
 
-    public CheckIn(String id, LocalDateTime checkInTime, User user) {
+    public CheckIn(String id, String category, LocalDateTime checkInTime, User user) {
         this.id = id;
+        this.category = category;
         this.checkInTime = checkInTime;
         this.user = user;
     }
@@ -52,5 +54,13 @@ public class CheckIn {
 
     public void setCheckOutTime(LocalDateTime checkOutTime) {
         this.checkOutTime = checkOutTime;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }
