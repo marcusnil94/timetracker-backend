@@ -7,6 +7,8 @@ import com.timetracker.timetracker.services.UserService;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +33,19 @@ public class UserController {
     public User addUser(@RequestBody User user) {
         return userService.addUser(user);
     }
-    
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody User user) {
+        // Find user by email
+        User existingUser = userService.getUserByEmail(user.getEmail());
+
+        if (existingUser != null && existingUser.getPassword().equals(user.getPassword())) {
+            // Return the userId upon successful login
+            return ResponseEntity.ok().body(existingUser.getId());
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Failed to log in");
+        }
+    }
     
     
 }
