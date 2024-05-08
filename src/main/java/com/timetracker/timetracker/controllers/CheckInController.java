@@ -3,7 +3,6 @@ package com.timetracker.timetracker.controllers;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.timetracker.timetracker.models.CheckIn;
-import com.timetracker.timetracker.models.User;
 import com.timetracker.timetracker.services.CheckInService;
 
 import java.util.List;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 
@@ -33,6 +31,10 @@ public class CheckInController {
         return checkInService.getCheckIns();
     }
     
+    @GetMapping("/checkins/{userId}")
+    public List<CheckIn> getCheckInsByUserId(@PathVariable String userId) {
+        return checkInService.getCheckInsByUserId(userId);
+    }
     
 
     @PostMapping("/checkin/{userId}")

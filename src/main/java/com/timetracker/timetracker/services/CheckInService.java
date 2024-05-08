@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,21 +25,25 @@ public class CheckInService {
     }
 
     public CheckIn createCheckIn(String userId, CheckIn checkIn) {
-        User user = userService.getUserById(userId); 
+        User user = userService.getUserById(userId);
         if (user != null) {
             checkIn.setUser(user);
-            checkIn.setCheckInTime(LocalDateTime.now()); 
+            
+            LocalDateTime adjustedCheckInTime = LocalDateTime.now().plusHours(2);
+            checkIn.setCheckInTime(adjustedCheckInTime);
             mongoOperations.save(checkIn);
             return checkIn;
         } else {
             throw new RuntimeException("User not found");
         }
     }
-
+    
     public CheckIn checkout(String checkInId) {
         CheckIn checkIn = mongoOperations.findById(checkInId, CheckIn.class);
         if (checkIn != null) {
-            checkIn.setCheckOutTime(LocalDateTime.now());
+            
+            LocalDateTime adjustedCheckOutTime = LocalDateTime.now().plusHours(2);
+            checkIn.setCheckOutTime(adjustedCheckOutTime);
             mongoOperations.save(checkIn);
             return checkIn;
         } else {
@@ -47,6 +53,15 @@ public class CheckInService {
 
     public List<CheckIn> getCheckIns() {
         return mongoOperations.findAll(CheckIn.class);
+    }
+
+     public List<CheckIn> getCheckInsByUserId(String userId) {
+        User user = userService.getUserById(userId);
+        if (user != null) {
+            return mongoOperations.find(Query.query(Criteria.where("user").is(user)), CheckIn.class);
+        } else {
+            throw new RuntimeException("User not found");
+        }
     }
 
 }

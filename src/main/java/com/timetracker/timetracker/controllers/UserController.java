@@ -36,11 +36,11 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
-        // Find user by email
+        
         User existingUser = userService.getUserByEmail(user.getEmail());
 
         if (existingUser != null && existingUser.getPassword().equals(user.getPassword())) {
-            // Return the userId upon successful login
+            
             return ResponseEntity.ok().body(existingUser.getId());
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Failed to log in");
