@@ -12,7 +12,6 @@ public class CategoryStats {
         this.totalMinutes = totalMinutes;
     }
 
-    // Getters and setters
     public long getTotalHours() {
         return totalHours;
     }
