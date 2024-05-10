@@ -13,9 +13,8 @@ public class CorsConfig {
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("http://localhost:5173");
+        config.addAllowedOrigin("https://stingray-app-p7fqd.ondigitalocean.app/");
         config.addAllowedMethod("*");
-        config.addAllowedMethod("DELETE");
         config.addAllowedHeader("*");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
