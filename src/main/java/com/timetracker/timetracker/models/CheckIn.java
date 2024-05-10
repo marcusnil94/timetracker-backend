@@ -1,5 +1,6 @@
 package com.timetracker.timetracker.models;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.Id;
@@ -13,6 +14,8 @@ public class CheckIn {
     private LocalDateTime checkInTime;
     private LocalDateTime checkOutTime;
     private String category;
+    private long hours;
+    private long minutes;
     
     @DBRef
     private User user;
@@ -22,6 +25,34 @@ public class CheckIn {
         this.category = category;
         this.checkInTime = checkInTime;
         this.user = user;
+    }
+
+    private void calculateTimeWorked() {
+        if (checkInTime != null && checkOutTime != null) {
+            Duration duration = Duration.between(checkInTime, checkOutTime);
+            this.hours = duration.toHours();
+            this.minutes = duration.toMinutes() % 60;
+        } else {
+            throw new RuntimeException("Not found");
+        }
+    }
+
+    
+
+    public long getHours() {
+        return hours;
+    }
+
+    public void setHours(long hours) {
+        this.hours = hours;
+    }
+
+    public long getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(long minutes) {
+        this.minutes = minutes;
     }
 
     public String getId() {
@@ -54,6 +85,7 @@ public class CheckIn {
 
     public void setCheckOutTime(LocalDateTime checkOutTime) {
         this.checkOutTime = checkOutTime;
+        calculateTimeWorked();
     }
 
     public String getCategory() {
